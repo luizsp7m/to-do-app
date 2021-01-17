@@ -10,6 +10,13 @@ function Header() {
     <Navbar>
       <Container>
         <img src={Logo} alt="Logo" />
+
+        <div className="menu-toggle">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
         <ul>
           <li>
             <a href="#">Início</a>
@@ -22,8 +29,8 @@ function Header() {
           </li>
           <li>
             <a href="#">
-              <FaBell size={20} />
-              <span className="notification">10</span>
+              <FaBell size={22} />
+              <span className="notification">4</span>
             </a>
           </li>
         </ul>

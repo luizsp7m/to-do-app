@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Card, Top, Bottom } from './styles';
 
+import { format } from 'date-fns';
+
 import DefaultIcon from '../../assets/default.png'
 
-function Task() {
+function Task({ type, title, when }) {
+
+  const date = useMemo(() => format(new Date(when), 'dd/MM/yyyy'));
+  const hour = useMemo(() => format(new Date(when), 'HH:mm'));
+
   return (
     <Card>
       <Top>
         <img src={DefaultIcon} alt="Ícone" />
-        <span>Jogar futebol</span>
+        <span>{title}</span>
       </Top>
 
       <Bottom>
-        <span>13/01/2021</span>
-        <span>18:00</span>
+        <span>{date}</span>
+        <span>{hour}</span>
       </Bottom>
     </Card>
   );

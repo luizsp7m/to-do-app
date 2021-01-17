@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Container, Main, Filters, Tasks } from './styles';
 
@@ -12,10 +12,18 @@ import Task from '../../components/Task';
 function Home() {
 
   const [activated, setActivated] = useState('today');
+  const [tasks, setTasks] = useState([]);
 
   async function loadTasks() {
-    await api.get(`/task/filter/year/00:0a:95:9d:68:16`);
+    await api.get(`/task/filter/${activated}/00:0a:95:9d:68:16`).then(response => {
+      setTasks(response.data);
+    });
   }
+
+  useEffect(() => {
+    loadTasks();
+    console.log(tasks);
+  }, [activated]);
 
   return (
     <Container>
@@ -43,8 +51,11 @@ function Home() {
           </button>
         </Filters>
         <Tasks>
-          <Task />
-          <Task />
+          {
+            tasks.map(task => (
+              <Task title={task.title} when={task.when} when={task.when} />
+            ))
+          }
         </Tasks>
       </Main>
       <Footer />

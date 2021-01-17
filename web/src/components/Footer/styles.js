@@ -10,7 +10,6 @@ export const Container = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  margin-top: 2rem;
 
   > p {
     color: var(--bg-main-color);

@@ -18,8 +18,6 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  /* background: red; */
-
   > img {
     width: 100%;
     max-width: 10rem;
@@ -48,6 +46,20 @@ export const Container = styled.div`
 
     &:hover {
       color: var(--orange-color);
+    }
+  }
+
+  > ul li a .notification {
+    position: absolute;
+  }
+
+  @media(max-width: 630px) {
+    > ul {
+      display: none;
+    }
+
+    .menu-toggle {
+      
     }
   }
 `;
