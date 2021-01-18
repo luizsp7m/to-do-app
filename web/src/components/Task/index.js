@@ -4,7 +4,7 @@ import { Card, Top, Bottom } from './styles';
 
 import { format } from 'date-fns';
 
-import DefaultIcon from '../../assets/default.png'
+import typeIcons from '../../utils/typeIcons';
 
 function Task({ type, title, when }) {
 
@@ -14,7 +14,8 @@ function Task({ type, title, when }) {
   return (
     <Card>
       <Top>
-        <img src={DefaultIcon} alt="Ícone" />
+        {console.log(type)}
+        <img src={typeIcons[type]} alt="Ícone" />
         <span>{title}</span>
       </Top>
 
