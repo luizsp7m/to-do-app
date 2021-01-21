@@ -8,6 +8,12 @@ export const Main = styled.div`
   width: 90%;
   max-width: 1120px;
   margin: 0 auto;
+
+  > h4 {
+    margin-bottom: 2rem;
+    color: var(--orange-color);
+    text-align: center;
+  }
 `;
 
 export const Filters = styled.div`

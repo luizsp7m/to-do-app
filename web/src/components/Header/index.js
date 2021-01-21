@@ -5,7 +5,7 @@ import { Navbar, Container } from './styles';
 import Logo from '../../assets/logo.png';
 import { FaBell } from 'react-icons/fa';
 
-function Header() {
+function Header({ lateCount, clickNotification }) {
   return (
     <Navbar>
       <Container>
@@ -28,10 +28,10 @@ function Header() {
           <a href="#">Sincronizar celular</a>
           </li>
           <li>
-            <a href="#">
+            <button onClick={clickNotification}>
               <FaBell size={22} />
-              <span className="notification">4</span>
-            </a>
+              <span className="notification">{lateCount}</span>
+            </button>
           </li>
         </ul>
       </Container>

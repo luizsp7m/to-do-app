@@ -32,7 +32,18 @@ export const Container = styled.div`
   }
 
   > ul li {
+    > button {
+      border: none;
+      background: none;
+      position: relative;
+      transition: color .1s;
+      cursor: pointer;
+      color: var(--bg-main-color);
 
+      &:hover {
+        color: var(--orange-color);
+      }
+    }
   }
 
   > ul li a {
