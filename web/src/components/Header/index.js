@@ -5,6 +5,8 @@ import { Navbar, Container } from './styles';
 import Logo from '../../assets/logo.png';
 import { FaBell } from 'react-icons/fa';
 
+import { Link } from 'react-router-dom';
+
 function Header({ lateCount, clickNotification }) {
   return (
     <Navbar>
@@ -19,13 +21,13 @@ function Header({ lateCount, clickNotification }) {
 
         <ul>
           <li>
-            <a href="#">Início</a>
+            <Link to="/">Início</Link>
           </li>
           <li>
-            <a href="#">Nova tarefa</a>
+            <Link to="/task">Nova tarefa</Link>
           </li>
           <li>
-          <a href="#">Sincronizar celular</a>
+          <Link>Sincronizar celular</Link>
           </li>
           <li>
             <button onClick={clickNotification}>

@@ -9,6 +9,8 @@ import Footer from '../../components/Footer';
 import Filter from '../../components/Filter';
 import Task from '../../components/Task';
 
+import { Link } from 'react-router-dom';
+
 function Home() {
 
   const [activated, setActivated] = useState('today');
@@ -62,12 +64,14 @@ function Home() {
           </button>
         </Filters>
 
-        <h4>{ activated === 'late' ? "Tarefas atrasadas" : "Tarefas" }</h4>
+        <h4>{activated === 'late' ? "Tarefas atrasadas" : "Tarefas"}</h4>
 
         <Tasks>
           {
-            tasks.map(task => (
-              <Task type={task.type} title={task.title} when={task.when} when={task.when} />
+            tasks.map((task, index) => (
+              <Link to={`/task/${task._id}`}>
+                <Task type={task.type} title={task.title} when={task.when} when={task.when} />
+              </Link>
             ))
           }
         </Tasks>

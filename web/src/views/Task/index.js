@@ -5,11 +5,13 @@ import Footer from '../../components/Footer';
 
 import api from '../../services/api';
 
+import { format } from 'date-fns';
+
 import typeIcons from '../../utils/typeIcons';
 
 import { Container, Form, TypeIcons, Input, Row, Save } from './styles';
 
-function Task() {
+function Task({ match }) {
   const [lateCount, setLateCount] = useState();
   const [type, setType] = useState();
   const [id, setId] = useState();
@@ -26,16 +28,29 @@ function Task() {
     });
   }
 
-  async function Save() {
+  async function loadTaskDetails() {
+    await api.get(`/task/${match.params.id}`).then(response => {
+      setType(response.data.type);
+      setTitle(response.data.title);
+      setDescription(response.data.description);
+      setDate(format(new Date(response.data.when), 'yyyy-MM-dd'));
+      setHour(format(new Date(response.data.when), 'HH:mm'));
+    });
+  }
+
+  async function handleSave() {
     await api.post('/task', {
       macaddress,
       type,
+      title,
       description,
-    })
+      when: `${date}T${hour}:00.000`
+    }).then(() => alert('Tarefa cadastrada com sucesso!'));
   }
 
   useEffect(() => {
     lateVerify();
+    loadTaskDetails();
   }, []);
 
   return (
@@ -80,7 +95,7 @@ function Task() {
         </Row>
 
         <Save>
-          <button>Salvar</button>
+          <button onClick={handleSave}>Salvar</button>
         </Save>
       </Form>
       <Footer />
