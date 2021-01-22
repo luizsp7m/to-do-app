@@ -6,13 +6,13 @@ import { format } from 'date-fns';
 
 import typeIcons from '../../utils/typeIcons';
 
-function Task({ type, title, when }) {
+function Task({ type, title, when, done }) {
 
   const date = useMemo(() => format(new Date(when), 'dd/MM/yyyy'));
   const hour = useMemo(() => format(new Date(when), 'HH:mm'));
 
   return (
-    <Card>
+    <Card done={done}>
       <Top>
         {console.log(type)}
         <img src={typeIcons[type]} alt="Ícone" />

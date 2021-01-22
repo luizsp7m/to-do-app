@@ -34,6 +34,7 @@ export const Tasks = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
+  margin-bottom: 9rem;
 
   > a {
     text-decoration: none;

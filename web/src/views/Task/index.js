@@ -4,14 +4,17 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import api from '../../services/api';
-
 import { format } from 'date-fns';
 
 import typeIcons from '../../utils/typeIcons';
 
 import { Container, Form, TypeIcons, Input, Row, Save } from './styles';
 
+import { Redirect } from 'react-router-dom';
+
 function Task({ match }) {
+
+  const [redirect, setRedirect] = useState(false);
   const [lateCount, setLateCount] = useState();
   const [type, setType] = useState();
   const [id, setId] = useState();
@@ -32,6 +35,7 @@ function Task({ match }) {
     await api.get(`/task/${match.params.id}`).then(response => {
       setType(response.data.type);
       setTitle(response.data.title);
+      setDone(response.data.done);
       setDescription(response.data.description);
       setDate(format(new Date(response.data.when), 'yyyy-MM-dd'));
       setHour(format(new Date(response.data.when), 'HH:mm'));
@@ -39,13 +43,30 @@ function Task({ match }) {
   }
 
   async function handleSave() {
-    await api.post('/task', {
-      macaddress,
-      type,
-      title,
-      description,
-      when: `${date}T${hour}:00.000`
-    }).then(() => alert('Tarefa cadastrada com sucesso!'));
+    if (!type) return alert('Você precisa informar o tipo da tarefa');
+    if (!title) return alert('Você precisa informar o título da tarefa');
+    if (!description) return alert('Você precisa informar a descrição da tarefa');
+    if (!date) return alert('Você precisa informar a data da tarefa');
+    if (!hour) return alert('Você precisa informar a hora da tarefa');
+
+    if (match.params.id) {
+      await api.put(`/task/${match.params.id}`, {
+        macaddress,
+        done,
+        type,
+        title,
+        description,
+        when: `${date}T${hour}:00.000`
+      }).then(() => setRedirect(true));
+    } else {
+      await api.post('/task', {
+        macaddress,
+        type,
+        title,
+        description,
+        when: `${date}T${hour}:00.000`
+      }).then(() => setRedirect(true));
+    }
   }
 
   useEffect(() => {
@@ -55,6 +76,7 @@ function Task({ match }) {
 
   return (
     <Container>
+      { redirect && <Redirect to='/' />}
       <Header lateCount={lateCount} clickNotification={Notification} />
       <Form>
         <TypeIcons>
@@ -67,27 +89,27 @@ function Task({ match }) {
 
         <Input>
           <span>Título</span>
-          <input type="text" placeholder="Título da tarefa" onChange={ e => setTitle(e.target.value) } value={title} />
+          <input type="text" placeholder="Título da tarefa" onChange={e => setTitle(e.target.value)} value={title} />
         </Input>
 
         <Input>
           <span>Descrição</span>
-          <textarea rows="5" placeholder="Descrição da tarefa" onChange={ e => setDescription(e.target.value) } value={description} />
+          <textarea rows="5" placeholder="Descrição da tarefa" onChange={e => setDescription(e.target.value)} value={description} />
         </Input>
 
         <Input>
           <span>Data</span>
-          <input type="date" placeholder="Título da tarefa" onChange={ e => setDate(e.target.value) } value={date} />
+          <input type="date" placeholder="Título da tarefa" onChange={e => setDate(e.target.value)} value={date} />
         </Input>
 
         <Input>
           <span>Hora</span>
-          <input type="time" placeholder="Título da tarefa" onChange={ e => setHour(e.target.value) } value={hour} />
+          <input type="time" placeholder="Título da tarefa" onChange={e => setHour(e.target.value)} value={hour} />
         </Input>
 
         <Row>
           <div>
-            <input type="checkbox" checked={done} onChange={ () => setDone(!done) } />
+            <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
             <span>Concluido</span>
           </div>
 

@@ -7,6 +7,7 @@ export const Card = styled.div`
   border: 1px solid rgba(0,0,0, .06);
   cursor: pointer;
   transition: background .1s;
+  opacity: ${props => props.done ? .5 : 1};
 
   &:hover {
     background: rgba(0,0,0, .045);
