@@ -12,10 +12,11 @@ import { Container, Form, TypeIcons, Input, Row, Save } from './styles';
 
 import { Redirect } from 'react-router-dom';
 
+import isConnected from '../../utils/isConnected';
+
 function Task({ match }) {
 
   const [redirect, setRedirect] = useState(false);
-  const [lateCount, setLateCount] = useState();
   const [type, setType] = useState();
   const [id, setId] = useState();
   const [done, setDone] = useState(false);
@@ -23,13 +24,6 @@ function Task({ match }) {
   const [description, setDescription] = useState();
   const [date, setDate] = useState();
   const [hour, setHour] = useState();
-  const [macaddress, setMacaddress] = useState('00:0a:95:9d:68:16');
-
-  async function lateVerify() {
-    await api.get(`/task/filter/late/00:0a:95:9d:68:16`).then(response => {
-      setLateCount(response.data.length);
-    });
-  }
 
   async function loadTaskDetails() {
     await api.get(`/task/${match.params.id}`).then(response => {
@@ -51,7 +45,7 @@ function Task({ match }) {
 
     if (match.params.id) {
       await api.put(`/task/${match.params.id}`, {
-        macaddress,
+        macaddress: isConnected,
         done,
         type,
         title,
@@ -60,7 +54,7 @@ function Task({ match }) {
       }).then(() => setRedirect(true));
     } else {
       await api.post('/task', {
-        macaddress,
+        macaddress: isConnected,
         type,
         title,
         description,
@@ -69,15 +63,24 @@ function Task({ match }) {
     }
   }
 
+  async function Remove() {
+    const res = window.confirm('Deseja realmente remover a tarefa?');
+    if (res === true) {
+      await api.delete(`/task/${match.params.id}`)
+      .then(() => setRedirect(true));
+    }
+  }
+
   useEffect(() => {
-    lateVerify();
+    if(!isConnected) setRedirect(true);
+
     loadTaskDetails();
   }, []);
 
   return (
     <Container>
       { redirect && <Redirect to='/' />}
-      <Header lateCount={lateCount} clickNotification={Notification} />
+      <Header clickNotification={Notification} />
       <Form>
         <TypeIcons>
           {
@@ -113,7 +116,10 @@ function Task({ match }) {
             <span>Concluido</span>
           </div>
 
-          <button>Excluir</button>
+          { match.params.id && (
+            <button onClick={Remove}>Excluir</button>
+          ) }
+
         </Row>
 
         <Save>

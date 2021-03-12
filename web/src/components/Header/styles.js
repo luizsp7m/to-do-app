@@ -32,6 +32,20 @@ export const Container = styled.div`
   }
 
   > ul li {
+    > button.logout {
+      text-decoration: none;
+      margin: 0 3rem 0 2rem;
+      color: var(--bg-main-color);
+      font-weight: bold;
+      font-size: 1.5rem;
+      transition: color .1s;
+      position: relative;
+
+      &:hover {
+        color: var(--orange-color);
+      }
+    }
+
     > button {
       border: none;
       background: none;
