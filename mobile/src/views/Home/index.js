@@ -13,10 +13,21 @@ export default function Home() {
   const [actived, setActived] = useState('all');
   const [tasks, setTasks] = useState([]);
   const [load, setLoad] = useState(false);
+  const [lateCount, setLateCount] = useState();
+
+  async function lateVerify() {
+    await api.get(`/task/filter/late/00:0a:95:9d:68:16`).then(response => {
+      setLateCount(response.data.length);
+    });
+  }
+
+  function Notification() {
+    setActived('late');
+  }
 
   async function loadTasks() {
     setLoad(true);
-    await api.get(`/task/filter/all/00:0a:95:9d:68:16`).then(response => {
+    await api.get(`/task/filter/${actived}/00:0a:95:9d:68:16`).then(response => {
       setTasks(response.data);
       setLoad(false);
     });
@@ -24,11 +35,12 @@ export default function Home() {
 
   useEffect(() => {
     loadTasks();
-  }, []);
+    lateVerify();
+  }, [actived]);
 
   return (
     <View style={styles.container}>
-      <Header showNotification={true} showBack={false} />
+      <Header late={lateCount} pressNotification={Notification} showNotification={lateCount ? true : false} showBack={false} />
 
       <View style={styles.filter}>
         <TouchableOpacity style={styles.filterButton} onPress={() => setActived('all')}>
@@ -52,18 +64,18 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.title}>
+      <View style={styles.title}>
         <Text style={styles.titleText}>
-          Tarefas
+          { actived === 'late' ? 'Tarefas atrasadas' : 'Tarefas' }
         </Text>
-      </View> */}
+      </View>
 
       <ScrollView style={styles.content} contentContainerStyle={{ alignItems: 'center' }}>
         {
           load ? <ActivityIndicator color='#ee6b26' size={30} /> :
-          tasks.map((task, index) => (
-            <TaskCard key={index} title={task.title} when={task.when} done={task.done} />
-          ))
+            tasks.map((task, index) => (
+              <TaskCard key={index} title={task.title} when={task.when} done={task.done} type={task.type} />
+            ))
         }
       </ScrollView>
 
