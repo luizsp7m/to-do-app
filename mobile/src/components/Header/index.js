@@ -9,11 +9,16 @@ import bell from '../../assets/bell.png';
 import qrcode from '../../assets/qrcode.png';
 import back from '../../assets/back.png';
 
-export default function Header({ late, pressNotification,showNotification, showBack }) {
+export default function Header({ late, pressNotification,showNotification, showBack, navigation }) {
+
+  function Back() {
+    navigation.navigate('Home');
+  }
+
   return (
     <View style={styles.container}>
       { showBack ? (
-        <TouchableOpacity style={styles.leftIcon}>
+        <TouchableOpacity style={styles.leftIcon} onPress={Back}>
           <Image source={back} style={styles.leftIconImage} />
         </TouchableOpacity>
       ) : (

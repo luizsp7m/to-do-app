@@ -17,13 +17,13 @@ import typeIcons from '../../utils/typeIcons';
 
 import styles from './styles';
 
-export default function Task() {
+export default function Task({ navigation }) {
   const [done, setDone] = useState(false);
 
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
-      <Header showBack={true} />
-      <ScrollView style={{ width: '100%' }}>
+      <Header showBack={true} navigation={navigation} />
+      <ScrollView style={{ width: '100%', marginBottom: 85 }}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {typeIcons.map((icon, index) => (
             icon != null &&
@@ -38,6 +38,12 @@ export default function Task() {
 
         <Text style={styles.label}>Detalhes</Text>
         <TextInput style={styles.inputArea} multiline={true} maxLength={200} placeholder="Detalhes da tarefa" />
+
+        <Text style={styles.label}>Data</Text>
+        <TextInput style={styles.input} maxLength={10} placeholder="22/03/2021" />
+
+        <Text style={styles.label}>Horário</Text>
+        <TextInput style={styles.input} maxLength={5} placeholder="18:00" />
 
         <View style={styles.inline}>
           <View style={styles.inputInline}>

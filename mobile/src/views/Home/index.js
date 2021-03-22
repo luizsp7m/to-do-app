@@ -9,7 +9,7 @@ import TaskCard from '../../components/TaskCard';
 
 import api from '../../services/api';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [actived, setActived] = useState('all');
   const [tasks, setTasks] = useState([]);
   const [load, setLoad] = useState(false);
@@ -23,6 +23,10 @@ export default function Home() {
 
   function Notification() {
     setActived('late');
+  }
+
+  function NewTask() {
+    navigation.navigate('Task');
   }
 
   async function loadTasks() {
@@ -79,7 +83,7 @@ export default function Home() {
         }
       </ScrollView>
 
-      <Footer icon={'add'} />
+      <Footer icon={'add'} onPress={NewTask} />
     </View>
   );
 }
