@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginHorizontal: 7,
     marginVertical: 15,
+    opacity: .5,
   },
 
   label: {
@@ -69,6 +70,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#20295f',
     fontSize: 16,
+  },
+
+  imageIconActived: {
+    opacity: 1,
   },
 });
 

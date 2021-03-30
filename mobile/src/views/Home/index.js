@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
   const [lateCount, setLateCount] = useState();
 
   async function lateVerify() {
-    await api.get(`/task/filter/late/00:0a:95:9d:68:16`).then(response => {
+    await api.get(`/task/filter/late/00:0a:95:9d:68:15`).then(response => {
       setLateCount(response.data.length);
     });
   }
@@ -31,7 +31,7 @@ export default function Home({ navigation }) {
 
   async function loadTasks() {
     setLoad(true);
-    await api.get(`/task/filter/${actived}/00:0a:95:9d:68:16`).then(response => {
+    await api.get(`/task/filter/${actived}/00:0a:95:9d:68:15`).then(response => {
       setTasks(response.data);
       setLoad(false);
     });
